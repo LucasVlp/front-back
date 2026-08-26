@@ -107,10 +107,21 @@ export async function login(email, senha) {
 //  🧪 Teste o erro também: tente cadastrar o MESMO e-mail duas vezes.
 //     O backend responde 400 com "Este e-mail já está cadastrado."
 //     Sua mensagem tem que aparecer em vermelho na tela.
-//
+//J
 export async function cadastrar(nome, email, senha) {
-  // ↓↓↓ APAGUE ESTA LINHA E ESCREVA SEU CÓDIGO ↓↓↓
-  throw new Error("🚧 TAREFA 1 ainda não foi implementada (src/services/api.js)");
+  const resposta = await fetch(`${API_URL}/api/usuarios/cadastrar`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ nome, email, senha }),
+  });
+
+  const dados = await resposta.json();
+
+  if (!resposta.ok) {
+    throw new Error(dados.mensagem || "Não foi possível criar a conta.");
+  }
+
+  return dados; // { sucesso, mensagem, token, usuario }
 }
 
 // ╔═════════════════════════════════════════════════════════════════════╗
